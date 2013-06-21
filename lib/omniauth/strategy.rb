@@ -241,7 +241,11 @@ module OmniAuth
     end
 
     def on_callback_path?
-      on_path?(callback_path)
+      if options.on_callback_path.respond_to?(:call)
+        options.on_callback_path.call(current_path)
+      else
+        on_path?(callback_path)
+      end
     end
 
     def on_path?(path)
